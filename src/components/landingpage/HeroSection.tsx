@@ -172,7 +172,7 @@ function HeroSection() {
             ref={rootRef}
             className="relative overflow-hidden bg-white px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-10 md:px-8 lg:px-10 lg:pb-28 lg:pt-14"
         >
-            <div className="relative mx-auto grid max-w-6xl gap-8 sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div className="relative mx-auto grid max-w-7xl gap-8 sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-16 mt-20">
                 <div className="flex min-w-0 flex-col gap-5 sm:gap-6 lg:gap-7">
                     <div ref={badgeRef}>
                         <Badge
