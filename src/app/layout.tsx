@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Home from "@/components/landingpage/Home";
 import "./globals.css";
-
+import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -24,6 +24,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         <Home />
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

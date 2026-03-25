@@ -1,7 +1,11 @@
+"use client";
+
+import WritersFormModal from "@/components/landingpage/WritersFormModal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -11,6 +15,8 @@ const navLinks = [
 ] as const;
 
 function Navbar() {
+  const [writersOpen, setWritersOpen] = useState(false);
+
   return (
     <header className="relative border-b  bg-transparent ">
       <div
@@ -59,8 +65,9 @@ function Navbar() {
           </ul>
 
           <Button
-            asChild
+            type="button"
             size="lg"
+            onClick={() => setWritersOpen(true)}
             className={cn(
               "h-10 rounded-full border-0 px-6 text-sm font-semibold text-white shadow-sm",
               "bg-linear-to-b from-blue-600 via-indigo-600 to-violet-600",
@@ -68,10 +75,12 @@ function Navbar() {
               "focus-visible:ring-2 focus-visible:ring-indigo-400/60 focus-visible:ring-offset-2"
             )}
           >
-            <Link href="#join">Join KP Writers</Link>
+            Join KP Writers
           </Button>
         </div>
       </nav>
+
+      <WritersFormModal open={writersOpen} onOpenChange={setWritersOpen} />
     </header>
   );
 }

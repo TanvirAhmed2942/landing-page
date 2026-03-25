@@ -9,6 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useLayoutEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +27,10 @@ const supportLinks = [
   { href: "#", label: "Contact Us" },
   { href: "#", label: "Report a Bug" },
 ] as const;
+
+type NewsletterFormValues = {
+  email: string;
+};
 
 function SocialIcon({ children, label }: { children: ReactNode; label: string }) {
   return (
@@ -44,6 +50,29 @@ function Footer() {
   const newsletterRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const subscribeWrapRef = useRef<HTMLDivElement>(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<NewsletterFormValues>({
+    defaultValues: { email: "" },
+  });
+
+  const onNewsletterSubmit = (data: NewsletterFormValues) => {
+    void data;
+    reset();
+    toast.success("You're subscribed", {
+      description: "Thanks! We'll send updates and new releases to your inbox.",
+    });
+  };
+
+  const onNewsletterInvalid = () => {
+    toast.error("Please enter a valid email", {
+      description: "Check the email field and try again.",
+    });
+  };
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -232,27 +261,52 @@ function Footer() {
             releases.
           </p>
           <form
-            className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-3"
-            onSubmit={(e) => e.preventDefault()}
+            className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row sm:items-start sm:gap-3"
+            onSubmit={handleSubmit(onNewsletterSubmit, onNewsletterInvalid)}
+            noValidate
           >
             <label className="sr-only" htmlFor="footer-email">
               Email address
             </label>
-            <div className="relative flex-1">
-              <Mail
-                className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-500"
-                aria-hidden
-              />
-              <input
-                id="footer-email"
-                type="email"
-                placeholder="Enter your email"
-                autoComplete="email"
-                className={cn(
-                  "h-12 w-full rounded-xl border border-zinc-700 bg-zinc-900/80 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-500",
-                  "outline-none transition-colors focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/25"
-                )}
-              />
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
+              <div className="relative">
+                <Mail
+                  className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-500"
+                  aria-hidden
+                />
+                <input
+                  id="footer-email"
+                  type="email"
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                  aria-invalid={errors.email ? true : undefined}
+                  aria-describedby={
+                    errors.email ? "footer-email-error" : undefined
+                  }
+                  className={cn(
+                    "h-12 w-full rounded-xl border border-zinc-700 bg-zinc-900/80 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-500",
+                    "outline-none transition-colors focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/25",
+                    errors.email &&
+                      "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/25"
+                  )}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email address",
+                    },
+                  })}
+                />
+              </div>
+              {errors.email && (
+                <p
+                  id="footer-email-error"
+                  className="text-left text-xs text-red-400 sm:pl-0.5"
+                  role="alert"
+                >
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div
               ref={subscribeWrapRef}
