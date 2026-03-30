@@ -1,4 +1,5 @@
 import { GlowOrb } from "@/components/landingpage/AmbientGlows";
+import Faqs from "@/components/landingpage/Faqs";
 import Footer from "@/components/landingpage/Footer";
 import HeroSection from "@/components/landingpage/HeroSection";
 import HowItWorks from "@/components/landingpage/HowItWorks";
@@ -41,6 +42,7 @@ export default function Home() {
           <KPnovelExample />
           <HowItWorks />
           <WeeklyWinner />
+          <Faqs />
         </div>
       </div>
 

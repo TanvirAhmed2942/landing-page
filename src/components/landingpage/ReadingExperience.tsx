@@ -42,8 +42,8 @@ const features = [
   },
   {
     num: "04",
-    title: "Daily Free Books",
-    description: "Read premium Chapters or Books for free.",
+    title: "Daily Premium Books",
+    description: "Read quality and refreshing chapters daily.",
     icon: Gift,
   },
 ] as const;

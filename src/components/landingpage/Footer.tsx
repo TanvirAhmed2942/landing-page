@@ -6,9 +6,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Send } from "lucide-react";
 import Image from "next/image";
+import BugReport from "@/components/landingpage/BugReport";
+import ContactUs from "@/components/landingpage/ContactUs";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -21,12 +23,18 @@ const productLinks = [
   { href: "#download", label: "Download" },
 ] as const;
 
-const supportLinks = [
+type SupportLink =
+  | { label: string; href: string }
+  | { label: string; bugReport: true }
+  | { label: string; contactUs: true };
+
+const supportLinks: SupportLink[] = [
   { href: "#", label: "Help Center" },
-  { href: "#", label: "FAQs" },
-  { href: "#", label: "Contact Us" },
-  { href: "#", label: "Report a Bug" },
-] as const;
+  { href: "#faqs", label: "FAQs" },
+  { href: "#", label: "Copyright Notice" },
+  { label: "Contact Us", contactUs: true },
+  { label: "Report a Bug", bugReport: true },
+];
 
 type NewsletterFormValues = {
   email: string;
@@ -50,6 +58,8 @@ function Footer() {
   const newsletterRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const subscribeWrapRef = useRef<HTMLDivElement>(null);
+  const [bugReportOpen, setBugReportOpen] = useState(false);
+  const [contactUsOpen, setContactUsOpen] = useState(false);
 
   const {
     register,
@@ -215,14 +225,32 @@ function Footer() {
           <div data-footer-col>
             <h3 className="text-sm font-bold text-white">Support</h3>
             <ul className="mt-4 space-y-3 text-sm">
-              {supportLinks.map(({ href, label }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="transition-colors hover:text-white"
-                  >
-                    {label}
-                  </Link>
+              {supportLinks.map((item) => (
+                <li key={item.label}>
+                  {"contactUs" in item && item.contactUs ? (
+                    <button
+                      type="button"
+                      onClick={() => setContactUsOpen(true)}
+                      className="text-left transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </button>
+                  ) : "bugReport" in item && item.bugReport ? (
+                    <button
+                      type="button"
+                      onClick={() => setBugReportOpen(true)}
+                      className="text-left transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <Link
+                      href={"href" in item ? item.href : "#"}
+                      className="transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -287,7 +315,7 @@ function Footer() {
                     "h-12 w-full rounded-xl border border-zinc-700 bg-zinc-900/80 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-500",
                     "outline-none transition-colors focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/25",
                     errors.email &&
-                      "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/25"
+                    "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/25"
                   )}
                   {...register("email", {
                     required: "Email is required",
@@ -334,7 +362,7 @@ function Footer() {
           ref={bottomRef}
           className="flex flex-col items-center justify-between gap-4 pt-10 text-sm text-zinc-500 sm:flex-row sm:pt-12"
         >
-          <p>© {new Date().getFullYear()} KPnovel. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Rinik Tech Company Limited. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="#" className="transition-colors hover:text-zinc-300">
               Privacy Policy
@@ -348,6 +376,8 @@ function Footer() {
           </div>
         </div>
       </div>
+      <ContactUs open={contactUsOpen} onOpenChange={setContactUsOpen} />
+      <BugReport open={bugReportOpen} onOpenChange={setBugReportOpen} />
     </footer>
   );
 }
