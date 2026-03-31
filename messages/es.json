@@ -1,0 +1,35 @@
+{
+  "header": {
+    "navlink": {
+      "features": "Características",
+      "preview": "Vista previa",
+      "demo": "Demo",
+      "download": "Descargar",
+      "joinWritersButton": "Unirse a los escritores"
+    }
+  },
+
+  "footer": {
+    "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",
+    "links": {
+      "home": "Inicio",
+      "aboutUs": "Acerca de nosotros",
+      "howItWorks": "Cómo funciona",
+      "independentPharmacies": "Para farmacias independientes",
+      "blog": "Blog"
+    },
+    "contactUs": {
+      "contactUs": "Contactanos",
+      "callUs": "Llámanos",
+      "emailUs": "Envíanos un mensaje"
+    },
+    "socialMedia": "Redes sociales",
+    "hipaaCertified": "HIPAA Certificado",
+    "policies": {
+      "hipaa": "Política HIPAA",
+      "privacy": "Política de privacidad",
+      "terms": "Política de términos de servicio"
+    },
+    "footerText": "Optimus Health Solutions. Todos los derechos reservados."
+  }
+}
